@@ -314,3 +314,76 @@ export function mergeCartQuery(source_cart_id,destination_cart_id){
     }
   }
 }
+
+
+export function AddAddressToGuestCartQuery(cartId,firstName,lastName,phoneNumber,street,areaCode,districtCode,region,regionId){
+  return {
+    "operationName": "mergeCart",
+    "query": `mutation setBillingAddressOnCart(
+      $cartId: String!
+      $firstName: String!
+      $lastName: String!
+      $phoneNumber: String!
+      $areaCode: String!
+      $districtCode: String!
+      $street: String!
+      $countryCode: String!
+      $postcode: String!
+      $region: String! 
+      $regionId: Int!
+  
+    ) {
+      setBillingAddressOnCart(
+        input: {
+          cart_id: $cartId
+          billing_address: {
+            address: {
+              firstname: $firstName
+              lastname: $lastName
+              telephone: $phoneNumber
+              city: $areaCode
+              district: $districtCode
+              street: [$street]
+              country_code: $countryCode
+              postcode: $postcode, 
+              region:$region
+              region_id:$regionId
+              
+            }
+            same_as_shipping: true
+          }
+        }
+      ) {
+        cart {
+          id
+          shipping_addresses {
+            district{
+              id
+            }
+            available_shipping_methods {
+              carrier_code
+              method_code
+            }
+          }
+          available_payment_methods {
+            code
+          }
+        }
+      }
+    }
+    `,
+    "variables": {
+      "cartId": cartId,
+      "firstName": firstName,
+      "lastName": lastName,
+      "phoneNumber": phoneNumber,
+      "street": street,
+      "postcode": "123456",
+      "areaCode": areaCode ,
+      "districtCode":districtCode,
+      "countryCode" : "EG",
+      "region": region,
+      "regionId": regionId
+    }
+  }
+}

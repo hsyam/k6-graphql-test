@@ -45,15 +45,20 @@ export function getAsSoonAsPossibleInterval(intervals){
 }
 
 export function generateCustomerData(){
-    let number = "011" + faker.random.number({
-        'min': 10000000,
-        'max': 99999999
-    })
+   
     return {
         firstname:faker.name.firstName(),
         lastname:faker.name.lastName(),
-        phone_number:number,
+        phone_number: generatePhoneNumber(),
         email:faker.internet.email(),
         password:"User@123",
     }
+}
+
+
+export function generatePhoneNumber(){
+    return "011" + faker.random.number({
+        'min': 10000000,
+        'max': 99999999
+    })
 }

@@ -1,5 +1,5 @@
 import http from 'k6/http';
-import { addToCartQuery, createAndVerifyCustomerQuery, createCartQuery, createCustomerShippingAddressQuery, customerQuery, deliveryDaysQuery, getProductsQuery, loginQuery, mergeCartQuery, placeOrderQuery, setBillingAddressOnCartQuery, setPaymentMethodOnCartQuery, setShippingMethodsOnCartQuery } from './queries.js';
+import { AddAddressToGuestCartQuery, addToCartQuery, createAndVerifyCustomerQuery, createCartQuery, createCustomerShippingAddressQuery, customerQuery, deliveryDaysQuery, getProductsQuery, loginQuery, mergeCartQuery, placeOrderQuery, setBillingAddressOnCartQuery, setPaymentMethodOnCartQuery, setShippingMethodsOnCartQuery } from './queries.js';
 
 export function request(query,headers = {}){
     return http.post('https://mcstaging.seoudisupermarket.com/graphql',JSON.stringify(query),{
@@ -113,6 +113,13 @@ export function mergeCart(token,source_cart_id,destination_cart_id){
     const query = mergeCartQuery(source_cart_id,destination_cart_id)
     const headers = {
         "authorization" :  `bearer ${token}`,
+    }
+    return request(query,headers) ;
+}
+
+export function AddAddressToGuestCart(cartId,firstName,lastName,phoneNumber,street,areaCode,districtCode,region,regionId){
+    const query = AddAddressToGuestCartQuery(cartId,firstName,lastName,phoneNumber,street,areaCode,districtCode,region,regionId)
+    const headers = {
     }
     return request(query,headers) ;
 }
